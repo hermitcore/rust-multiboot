@@ -286,7 +286,7 @@ impl<'a> Multiboot<'a> {
     }
 
     /// Discover all additional modules in multiboot.
-    pub fn modules(&'a self) -> Option<ModuleIter> {
+    pub fn modules(&'a self) -> Option<ModuleIter<'_>> {
         if self.has_modules() {
             unsafe {
                 (self.paddr_to_slice)(
@@ -308,7 +308,7 @@ impl<'a> Multiboot<'a> {
     }
 
     /// Discover all memory regions in the multiboot memory map.
-    pub fn memory_regions(&'a self) -> Option<MemoryMapIter> {
+    pub fn memory_regions(&'a self) -> Option<MemoryMapIter<'_>> {
         match self.has_memory_map() {
             true => {
                 let start = self.header.mmap_addr;
@@ -410,7 +410,7 @@ pub struct MemoryEntry {
 }
 
 impl Debug for MemoryEntry {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         unsafe {
             write!(
                 f,
@@ -495,7 +495,7 @@ struct MBModule {
 }
 
 impl Debug for MBModule {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         unsafe {
             write!(
                 f,
@@ -518,7 +518,7 @@ pub struct Module<'a> {
 }
 
 impl<'a> Module<'a> {
-    fn new(start: PAddr, end: PAddr, name: Option<&'a str>) -> Module {
+    fn new(start: PAddr, end: PAddr, name: Option<&'a str>) -> Module<'_> {
         Module {
             start: start,
             end: end,
@@ -561,7 +561,7 @@ struct ElfSymbols {
 }
 
 impl Debug for ElfSymbols {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         unsafe {
             write!(
                 f,
