@@ -12,6 +12,14 @@ readme = "README.md"
 keywords = ["multiboot", "kernel", "os", "bootloader", "x86"]
 license = "MIT"
 
+[dependencies]
+core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
+compiler_builtins = { version = '0.1.0', optional = true }
+
+[features]
+default = []
+rustc-dep-of-std = ['core', 'compiler_builtins/rustc-dep-of-std']
+
 [[test]]
 name = "mbtest"
 harness = false
